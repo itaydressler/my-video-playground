@@ -4,5 +4,12 @@
   "main": "index.js",
   "repository": "https://github.com/itaydressler/my-video-playground.git",
   "author": "itaydressler",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": "6.11.1"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "express": "4.15.2"
+  }
 }
