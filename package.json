@@ -5,14 +5,19 @@
   "repository": "https://github.com/itaydressler/my-video-playground.git",
   "author": "itaydressler",
   "license": "MIT",
-  "engines": {
-    "node": "6.11.1"
-  },
   "scripts": {
-    "start": "node index.js"
+    "start": "npm run build && node ./artifacts/index.js",
+    "tsc": "tsc",
+    "clean": "rimraf artifacts",
+    "build": "npm run clean && npm run tsc --"
   },
   "dependencies": {
+    "@types/node": "^8.0.30",
+    "axios": "^0.16.2",
     "express": "4.15.2",
-    "mongoose": "^4.11.13"
+    "loadash": "^1.0.0",
+    "mongoose": "^4.11.13",
+    "rimraf": "^2.6.2",
+    "typescript": "^2.4.1"
   }
 }

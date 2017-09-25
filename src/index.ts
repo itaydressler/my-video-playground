@@ -1,7 +1,8 @@
 var express = require('express');
 var app = express();
+const env : any = process.env;
 
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (env.PORT || 5000));
 
 app.get('/', function(request, response) {
   response.json({"foo": "bar"});
@@ -12,7 +13,7 @@ app.listen(app.get('port'), function() {
 });
 
 var mongoose = require('mongoose');
-const mongoUrl = process.env.MONGODB_URI;
+const mongoUrl = env.MONGODB_URI;
 
 if (mongoUrl) {
 	console.log("Connecting to " + mongoUrl);
