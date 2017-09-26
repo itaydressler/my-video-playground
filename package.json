@@ -10,7 +10,8 @@
     "tsc": "./node_modules/.bin/tsc --p ./tsconfig.json",
     "clean": "rimraf artifacts",
     "build": "npm run clean && npm run tsc --",
-    "deploy": "heroku container:push web -a my-video-playground"
+    "deploy": "npm run build && heroku container:push web -a my-video-playground",
+    "clean-docker": "docker rmi $(docker images -f dangling=true -q)"
   },
   "engines": {
     "node": "8.5.x",
