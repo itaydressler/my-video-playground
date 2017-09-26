@@ -6,10 +6,11 @@
   "author": "itaydressler",
   "license": "MIT",
   "scripts": {
-    "start": "npm run build && node ./artifacts/index.js",
+    "start": "node ./artifacts/index.js",
     "tsc": "./node_modules/.bin/tsc --p ./tsconfig.json",
     "clean": "rimraf artifacts",
-    "build": "npm run clean && npm run tsc --"
+    "build": "npm run clean && npm run tsc --",
+    "deploy": "heroku container:push web -a my-video-playground"
   },
   "engines": {
     "node": "8.5.x",
@@ -19,14 +20,13 @@
     "axios": "^0.16.2",
     "express": "4.15.2",
     "loadash": "^1.0.0",
-    "mongoose": "^4.11.13",
+    "mongoose": "^4.11.13"
+  },
+  "devDependencies": {
     "rimraf": "^2.6.2",
     "typescript": "^2.4.1",
     "@types/express": "^4.0.37",
     "@types/mongoose": "^4.7.23",
     "@types/node": "^8.0.30"
-  },
-  "devDependencies": {
-
   }
 }

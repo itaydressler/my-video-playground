@@ -7,7 +7,7 @@ const env : any = process.env;
 app.set('port', (env.PORT || 5000));
 
 app.get('/', function(request, response) {
-  response.json({"foo": "bar"});
+  response.json({"foo": "bar2"});
 });
 
 app.listen(app.get('port'), function() {
@@ -18,7 +18,7 @@ const mongoUrl = env.MONGODB_URI;
 
 if (mongoUrl) {
 	console.log("Connecting to " + mongoUrl);
-	mongoose.connect(mongoUrl, null, err => console.log('Error connecting = ' + err));
+	mongoose.connect(mongoUrl,err => err && console.log('Error connecting = ' + err));
 }
 else {
 	console.log('No mongo url detected');
