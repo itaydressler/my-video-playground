@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run build && node ./artifacts/index.js",
-    "tsc": "./node_modules/.bin/tsc --module commonjs --outDir artifacts/ --noImplicitAny --sourceMap --target ES5 src/index.ts",
+    "tsc": "./node_modules/.bin/tsc --p ./tsconfig.json",
     "clean": "rimraf artifacts",
     "build": "npm run clean && npm run tsc --"
   },
