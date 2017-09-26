@@ -7,12 +7,13 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run build && node ./artifacts/index.js",
-    "tsc": "./node_modules/.bin/tsc",
+    "tsc": "./node_modules/.bin/tsc --module commonjs --outDir artifacts/ --noImplicitAny --sourceMap --target ES5 src/index.ts",
     "clean": "rimraf artifacts",
     "build": "npm run clean && npm run tsc --"
   },
   "engines": {
-    "node": ">=8.0"
+    "node": "8.5.x",
+    "npm": "5.3.x"
   },
   "dependencies": {
     "axios": "^0.16.2",

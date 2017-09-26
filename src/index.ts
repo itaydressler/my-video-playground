@@ -1,7 +1,6 @@
-
-
 import * as express from 'express';
 import * as mongoose from 'mongoose';
+import * as mongodb from 'mongodb';
 const app = express();
 const env : any = process.env;
 
@@ -19,7 +18,7 @@ const mongoUrl = env.MONGODB_URI;
 
 if (mongoUrl) {
 	console.log("Connecting to " + mongoUrl);
-	mongoose.connect(mongoUrl, err => console.log('Error connecting = ' + err));
+	mongoose.connect(mongoUrl, null, err => console.log('Error connecting = ' + err));
 }
 else {
 	console.log('No mongo url detected');
