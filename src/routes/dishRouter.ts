@@ -44,7 +44,7 @@ baseRoute.delete((req, res, next) => {
 });
 
 itemRoute.get((req, res, next) => {
-  Dishes.findById(req.params.dishId, (err, dish) => {
+  Dishes.findById(req.params.itemId, (err, dish) => {
     if (err) {
       next(err);
       return;
@@ -55,7 +55,7 @@ itemRoute.get((req, res, next) => {
 });
 
 itemRoute.delete((req, res, next) => {
-  Dishes.findByIdAndRemove(req.params.dishId, (err, resp) => {
+  Dishes.findByIdAndRemove(req.params.itemId, (err, resp) => {
     if (err) {
       next(err);
       return;
