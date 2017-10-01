@@ -6,53 +6,83 @@ import dishRouter from './dishRouter';
 
 const DEFAULT_PORT = 5000;
 
-export class MainRouter {
-	public static setup() {
-      const app = express();
+export const setupMainRouter = () => {
+  const app = express();
 
-      this.setPort(app);
-	  this.setupUtilities(app);
-	  this.setupCustomRouters(app);
+  setPort(app);
+  setupUtilities(app);
+  setupCustomRouters(app);
 
-	  this.setupMockRoute(app);
-      this.setupDefaultRoute(app);
-	  this.setupInitializationActions(app);
-    }
+  setupMockRoute(app);
+  setupDefaultRoute(app);
+  setupInitializationActions(app);
+  setupErrorHandlers(app);
+};
 
-    private static setPort(app:Express) {
-	  const {PORT} = process.env;
-      if (!PORT) {
-        console.warn('No port defined for env, using ' + DEFAULT_PORT);
-	  }
-      app.set('port', (PORT || DEFAULT_PORT));
-	}
+const setPort = (app:Express) => {
+  const {PORT} = process.env;
+  if (!PORT) {
+    console.warn('No port defined for env, using ' + DEFAULT_PORT);
+  }
+  app.set('port', (PORT || DEFAULT_PORT));
+};
 
-	private static setupUtilities(app:Express) {
-      app.use(logger('dev'));
-      app.use(bodyParser.json());
-      app.use(bodyParser.urlencoded({ extended: false }));
-	}
+const setupUtilities = (app:Express) => {
+  app.use(logger('dev'));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+};
 
-	private static setupCustomRouters(app: Express) {
-	  app.use('/dishes', dishRouter)
-	}
+const setupCustomRouters = (app: Express) => {
+  app.use('/dishes', dishRouter)
+};
 
-	private static setupDefaultRoute(app: Express) {
-      app.use((req, res, next) => {
-        res.status(404);
-        next(new Error('Not Found'));
+const setupDefaultRoute = (app: Express) => {
+  app.use((req, res, next) => {
+    res.status(404);
+    next(new Error('Not Found'));
+  });
+};
+
+const setupMockRoute = (app: Express) => {
+  app.get('/test', (request, response) => {
+    response.json({"foo": "bar5"});
+  });
+};
+
+const setupInitializationActions = (app: Express) => {
+  app.listen(app.get('port'), () => {
+    console.log('Node app is running on port', app.get('port'));
+  });
+};
+
+const setupErrorHandlers = (app: Express) => {
+  setupErrorHandlerForDev(app);
+  setupErrorHandlerForProduction(app);
+};
+
+const setupErrorHandlerForDev = (app: Express) => {
+  // development error handler
+  // will print stacktrace
+  if (app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
+      res.status(err.status || 500);
+      res.json({
+        message: err.message,
+        error: err
       });
-	}
+    });
+  }
+};
 
-	private static setupMockRoute(app: Express) {
-      app.get('/test', (request, response) => {
-        response.json({"foo": "bar5"});
-      });
-	}
-
-	private static setupInitializationActions(app: Express) {
-      app.listen(app.get('port'), () => {
-        console.log('Node app is running on port', app.get('port'));
-      });
-	}
-}
+const setupErrorHandlerForProduction = (app: Express) => {
+  // production error handler
+  // no stacktraces leaked to user
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.json({
+      message: err.message,
+      error: {}
+    });
+  });
+};

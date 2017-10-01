@@ -1,5 +1,6 @@
-import {MainRouter} from './routes/index';
+
 import {setupMongooseConnection} from './database/index';
+import {setupMainRouter} from './routes/index';
 
 setupMongooseConnection();
-MainRouter.setup();
+setupMainRouter();
