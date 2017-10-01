@@ -3,9 +3,9 @@ import {IUser, Users} from '../models/users';
 import * as passport from 'passport';
 import {Verify} from './Utils/verify';
 
-const router = Router();
-const baseRoute = router.route('/');
-const itemRoute = router.route('/:itemId');
+const usersRouter = Router();
+const baseRoute = usersRouter.route('/');
+const itemRoute = usersRouter.route('/:itemId');
 
 baseRoute.get(Verify.verifyOrdinaryUser, (req, res, next) => {
   Users.find({}, (err, users) => {
@@ -17,7 +17,7 @@ baseRoute.get(Verify.verifyOrdinaryUser, (req, res, next) => {
   })
 });
 
-router.post('/register', (req, res, next) => {
+usersRouter.post('/register', (req, res, next) => {
   Users.register(new Users({ username : req.body.username }),
     req.body.password, (err, user) => {
       if (err) {
@@ -29,7 +29,7 @@ router.post('/register', (req, res, next) => {
     });
 });
 
-router.post('/login', function(req, res, next) {
+usersRouter.post('/login', function(req, res, next) {
   passport.authenticate('local', (err, user: IUser, info) => {
     if (err) {
       return next(err);
@@ -56,7 +56,7 @@ router.post('/login', function(req, res, next) {
   })(req,res,next);
 });
 
-router.get('/logout', (req, res) => {
+usersRouter.get('/logout', (req, res) => {
   req.logout();
   res.status(200).json({
     status: 'Bye!'
@@ -72,4 +72,4 @@ itemRoute.get(Verify.verifyOrdinaryUser, (req, res, next) => {
   })
 });
 
-export default router;
+export default usersRouter;

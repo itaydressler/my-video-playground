@@ -3,6 +3,7 @@ import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import {Express} from 'express';
 import dishRouter from './dishRouter';
+import usersRouter from './users';
 
 const DEFAULT_PORT = 5000;
 
@@ -34,7 +35,8 @@ const setupUtilities = (app:Express) => {
 };
 
 const setupCustomRouters = (app: Express) => {
-  app.use('/dishes', dishRouter)
+  app.use('/dishes', dishRouter);
+  app.use('/users', usersRouter);
 };
 
 const setupDefaultRoute = (app: Express) => {
