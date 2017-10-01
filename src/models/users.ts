@@ -8,21 +8,12 @@ export interface IUser extends Document {
 }
 
 const userSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
+  username: String,
+  password: String,
   admin: {
     type: Boolean,
     default: false
   }
-}, {
-  timestamps: true
 });
 
 userSchema.plugin(passportLocalMongoose);

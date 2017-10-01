@@ -18,12 +18,13 @@ export class Verify {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
     if (token) {
-      jwt.verify(token, SECRET_KEY, function (err, decodedUser: IUser) {
+      jwt.verify(token, SECRET_KEY,  (err, decodedUser: IUser) => {
         if (err) {
           res.status(401);
           return next(new Error('You are not authenticated!'));
         } else {
-          // if everything is good, save to request for use in other routes
+          console.log('Decoded user:');
+          console.log(decodedUser);
           req.user = decodedUser;
           next();
         }
@@ -34,4 +35,14 @@ export class Verify {
       return next(new Error('You gotta authenticate for this to work dude, please provide a token.'));
     }
   };
+
+  public static verifyAdmin(req:Request, res:Response, next:NextFunction) {
+    if (req.user && req.user.admin) {
+      next();
+    }
+    else {
+      res.status(403);
+      return next(new Error('You are not authorized to do this.'));
+    }
+  }
 }
