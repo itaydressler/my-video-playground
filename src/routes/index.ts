@@ -35,6 +35,7 @@ const setupUtilities = (app:Express) => {
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
+  setupPassportAuth(app);
 };
 
 const setupPassportAuth = (app: Express) => {
