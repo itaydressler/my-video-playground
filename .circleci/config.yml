@@ -34,7 +34,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-          
+
       # build and push Docker image
       - run: |
           TAG=0.1.$CIRCLE_BUILD_NUM
