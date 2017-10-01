@@ -9,7 +9,8 @@ const itemRoute = dishRouter.route('/:itemId');
 baseRoute.get((req, res, next) => {
   Dishes.find({}, (err, dish) => {
     if (err) {
-      throw err;
+      next(err);
+      return;
     }
     res.json(dish);
   })
@@ -18,7 +19,8 @@ baseRoute.get((req, res, next) => {
 baseRoute.post((req, res, next) => {
   Dishes.create(req.body, (err, dish: IDish) => {
     if (err) {
-      throw err;
+      next(err);
+      return;
     }
 
     console.log('Dish created');
@@ -34,7 +36,8 @@ baseRoute.post((req, res, next) => {
 baseRoute.delete((req, res, next) => {
   Dishes.remove({}, (err) => {
     if (err) {
-      throw err;
+      next(err);
+      return;
     }
     res.end('Removed all dishes');
   })
@@ -43,7 +46,8 @@ baseRoute.delete((req, res, next) => {
 itemRoute.get((req, res, next) => {
   Dishes.findById(req.params.dishId, (err, dish) => {
     if (err) {
-      throw err;
+      next(err);
+      return;
     }
 
     res.json(dish);
@@ -53,7 +57,8 @@ itemRoute.get((req, res, next) => {
 itemRoute.delete((req, res, next) => {
   Dishes.findByIdAndRemove(req.params.dishId, (err, resp) => {
     if (err) {
-      throw err;
+      next(err);
+      return;
     }
     res.json(resp);
   })

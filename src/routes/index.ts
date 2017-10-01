@@ -65,7 +65,7 @@ const setupErrorHandlerForDev = (app: Express) => {
   // development error handler
   // will print stacktrace
   if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use((err, req, res, next) => {
       res.status(err.status || 500);
       res.json({
         message: err.message,
@@ -78,7 +78,7 @@ const setupErrorHandlerForDev = (app: Express) => {
 const setupErrorHandlerForProduction = (app: Express) => {
   // production error handler
   // no stacktraces leaked to user
-  app.use(function(err, req, res, next) {
+  app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.json({
       message: err.message,
