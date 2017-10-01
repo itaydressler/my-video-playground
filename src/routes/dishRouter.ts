@@ -5,7 +5,6 @@ const dishRouter = express.Router();
 const baseRoute = dishRouter.route('/');
 const itemRoute = dishRouter.route('/:itemId');
 
-
 baseRoute.get((req, res, next) => {
   Dishes.find({}, (err, dish) => {
     if (err) {
@@ -45,6 +44,17 @@ baseRoute.delete((req, res, next) => {
 
 itemRoute.get((req, res, next) => {
   Dishes.findById(req.params.itemId, (err, dish) => {
+    if (err) {
+      next(err);
+      return;
+    }
+
+    res.json(dish);
+  })
+});
+
+itemRoute.put((req, res, next) => {
+  Dishes.findById(req.params.dishId, { $set: req.body}, { new: true }, (err, dish) => {
     if (err) {
       next(err);
       return;
