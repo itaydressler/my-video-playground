@@ -7,7 +7,7 @@ const env : any = process.env;
 app.set('port', (env.PORT || 5000));
 
 app.get('/', function(request, response) {
-  response.json({"foo": "bar2"});
+  response.json({"foo": "bar3"});
 });
 
 app.listen(app.get('port'), function() {

@@ -6,10 +6,12 @@
   "author": "itaydressler",
   "license": "MIT",
   "scripts": {
+    "prebuild": "npm run clean",
+    "build": "npm run tsc --",
+    "prestart": "npm run build",
     "start": "node ./artifacts/index.js",
     "tsc": "./node_modules/.bin/tsc --p ./tsconfig.json",
     "clean": "rimraf artifacts",
-    "build": "npm run clean && npm run tsc --",
     "deploy": "npm run build && heroku container:push web -a my-video-playground",
     "clean-docker": "docker rmi $(docker images -f dangling=true -q)"
   },
