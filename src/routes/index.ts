@@ -4,6 +4,9 @@ import * as bodyParser from 'body-parser';
 import {Express} from 'express';
 import dishRouter from './dishRouter';
 import usersRouter from './users';
+import * as passport from 'passport';
+import {Strategy} from 'passport-local';
+import {Users} from '../models/users';
 
 const DEFAULT_PORT = 5000;
 
@@ -32,6 +35,13 @@ const setupUtilities = (app:Express) => {
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
+};
+
+const setupPassportAuth = (app: Express) => {
+  app.use(passport.initialize());
+  passport.use(new Strategy(Users.authenticate()));
+  passport.serializeUser(Users.serializeUser());
+  passport.deserializeUser(Users.deserializeUser());
 };
 
 const setupCustomRouters = (app: Express) => {
