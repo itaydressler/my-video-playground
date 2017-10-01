@@ -19,6 +19,8 @@ jobs:
     steps:
       - checkout
 
+      - setup_remote_docker
+
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -33,9 +35,10 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: echo "hello world"
-
-      - run: docker login -u $EMAIL -p $HEROKU_API_KEY $HEROKU_REGISTRY
-      - run: docker build --rm=false -t registry.heroku.com/my-video-playground/web .
-      - run: docker push registry.heroku.com/my-video-playground/web:latest
+      # build and push Docker image
+      - run: |
+          TAG=0.1.$CIRCLE_BUILD_NUM
+          docker build --rm=false -t registry.heroku.com/my-video-playground/web .
+          docker login -u $EMAIL -p $HEROKU_API_KEY
+          docker push registry.heroku.com/my-video-playground/web:latest
 
