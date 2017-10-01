@@ -35,7 +35,7 @@ jobs:
 
       - run: echo "hello world"
 
-      - run: docker login --email=$EMAIL --username=$EMAIL --password=$HEROKU_API_KEY $HEROKU_REGISTRY
+      - run: docker login -u $EMAIL -p $HEROKU_API_KEY $HEROKU_REGISTRY
       - run: docker build --rm=false -t registry.heroku.com/my-video-playground/web .
       - run: docker push registry.heroku.com/my-video-playground/web:latest
 
