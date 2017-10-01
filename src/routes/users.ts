@@ -41,9 +41,8 @@ usersRouter.post('/login', function(req, res, next) {
     }
     req.logIn(user, (err) => {
       if (err) {
-        return res.status(500).json({
-          err: 'Could not log in user'
-        });
+        res.status(500);
+        return next(err);
       }
 
       const token = Verify.getToken(user);
