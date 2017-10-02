@@ -29,18 +29,25 @@ usersRouter.post('/register', (req, res, next) => {
     });
 });
 
-usersRouter.post('/login', function(req, res, next) {
+usersRouter.post('/login',(req, res, next) => {
   passport.authenticate('local', (err, user: IUser, info) => {
+    console.log('Authenticated ');
+    console.log(user);
     if (err) {
+      console.error('Got error');
+      console.error(err);
       return next(err);
     }
     if (!user) {
+      console.error('no user');
       return res.status(401).json({
         err: info
       });
     }
     req.logIn(user, (err) => {
       if (err) {
+        console.error('Got error 2 ');
+        console.error(err);
         res.status(500);
         return next(err);
       }
@@ -55,7 +62,7 @@ usersRouter.post('/login', function(req, res, next) {
   })(req,res,next);
 });
 
-usersRouter.get('/logout', (req, res) => {
+usersRouter.post('/logout', (req, res) => {
   req.logout();
   res.status(200).json({
     status: 'Bye!'
