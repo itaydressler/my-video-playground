@@ -1,10 +1,15 @@
 import {model, Model, Schema, Document, PassportLocalModel} from 'mongoose';
 import * as passportLocalMongoose from 'passport-local-mongoose';
 
-export interface IUser extends Document {
+export interface IBasicUserData {
+  id?: string;
   username: string;
   password: string;
-  admin: boolean;
+  isAdmin: boolean;
+}
+
+export interface IUser extends Document, IBasicUserData {
+
 }
 
 const userSchema = new Schema({

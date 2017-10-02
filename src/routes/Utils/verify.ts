@@ -1,13 +1,18 @@
 
 import * as jwt from 'jsonwebtoken';
-import {IUser} from '../../models/users';
+import {IBasicUserData, IUser} from '../../models/users';
 import {Response, NextFunction} from 'express';
 import Request from '../Types/Request';
+import {isPlainObject} from 'lodash';
 
 const SECRET_KEY = '12345-67890-09876-54321';
 
 export class Verify {
-  public static getToken(user: IUser) {
+  public static getToken(user: IBasicUserData) {
+    if (!user) {
+      throw new Error('Must send an object to create a token.');
+    }
+
     return jwt.sign(user, SECRET_KEY, {
       expiresIn: 3600
     })
@@ -18,13 +23,11 @@ export class Verify {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
     if (token) {
-      jwt.verify(token, SECRET_KEY,  (err, decodedUser: IUser) => {
+      jwt.verify(token, SECRET_KEY,  (err, decodedUser: IBasicUserData) => {
         if (err) {
           res.status(401);
           return next(new Error('You are not authenticated!'));
         } else {
-          console.log('Decoded user:');
-          console.log(decodedUser);
           req.user = decodedUser;
           next();
         }
@@ -37,7 +40,7 @@ export class Verify {
   };
 
   public static verifyAdmin(req:Request, res:Response, next:NextFunction) {
-    if (req.user && req.user.admin) {
+    if (req.user && req.user.isAdmin) {
       next();
     }
     else {

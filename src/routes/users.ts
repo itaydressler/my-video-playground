@@ -1,7 +1,8 @@
 import {Router} from 'express';
-import {IUser, Users} from '../models/users';
+import {IBasicUserData, IUser, Users} from '../models/users';
 import * as passport from 'passport';
 import {Verify} from './Utils/verify';
+import Request from './Types/Request';
 
 const usersRouter = Router();
 const baseRoute = usersRouter.route('/');
@@ -30,29 +31,24 @@ usersRouter.post('/register', (req, res, next) => {
 });
 
 usersRouter.post('/login',(req, res, next) => {
-  passport.authenticate('local', (err, user: IUser, info) => {
-    console.log('Authenticated ');
-    console.log(user);
+  passport.authenticate('local', (err, user:IUser, info) => {
     if (err) {
-      console.error('Got error');
-      console.error(err);
       return next(err);
     }
     if (!user) {
-      console.error('no user');
       return res.status(401).json({
         err: info
       });
     }
+
     req.logIn(user, (err) => {
       if (err) {
-        console.error('Got error 2 ');
-        console.error(err);
         res.status(500);
         return next(err);
       }
 
-      const token = Verify.getToken(user);
+      const basicUser : IBasicUserData = { id:user.id, username:user.username, password:user.password, isAdmin:user.isAdmin };
+      const token = Verify.getToken(basicUser);
       res.status(200).json({
         status: 'Login successful!',
         success: true,
@@ -69,10 +65,14 @@ usersRouter.post('/logout', (req, res) => {
   });
 });
 
-itemRoute.get(Verify.verifyOrdinaryUser, (req, res, next) => {
-  Users.findById(req.body.itemId, (err, user) => {
+itemRoute.get(Verify.verifyOrdinaryUser, (req: Request, res, next) => {
+  const { itemId } = req.params;
+  Users.findById(itemId, (err, user) => {
     if (err) {
       return next(err);
+    }
+    if (!user) {
+      return next(new Error('Failed to find user with id ' + itemId));
     }
     res.json(user);
   })

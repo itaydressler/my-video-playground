@@ -53,7 +53,7 @@ const setupCustomRouters = (app: Express) => {
 const setupDefaultRoute = (app: Express) => {
   app.use((req, res, next) => {
     res.status(404);
-    next(new Error('Not Found'));
+    next(new Error('API Not Found'));
   });
 };
 
