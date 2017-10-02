@@ -13,7 +13,8 @@
     "tsc": "./node_modules/.bin/tsc --p ./tsconfig.json",
     "clean": "rimraf artifacts",
     "deploy": "npm run build && heroku container:push web -a my-video-playground",
-    "clean-docker": "docker rmi $(docker images -f dangling=true -q)"
+    "clean-docker": "docker rmi $(docker images -f dangling=true -q)",
+    "test": "npm run build && jest"
   },
   "engines": {
     "node": "8.5.x",
@@ -34,6 +35,7 @@
   "devDependencies": {
     "@types/body-parser": "^1.16.5",
     "@types/express": "^4.0.37",
+    "@types/jest": "^21.1.1",
     "@types/jsonwebtoken": "^7.2.3",
     "@types/lodash": "^4.14.76",
     "@types/mongoose": "^4.7.23",
@@ -42,6 +44,7 @@
     "@types/passport": "^0.3.4",
     "@types/passport-local": "^1.0.31",
     "@types/passport-local-mongoose": "^4.0.11",
+    "jest": "^21.2.1",
     "rimraf": "^2.6.2",
     "typescript": "^2.4.1"
   }
